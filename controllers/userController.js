@@ -1,20 +1,17 @@
 import User from '../models/mongoUser.model.js';
 import { generateOTP } from '../utils/otpGenerator.js';
-import { sendMailWithAttachment } from '../utils/sendEmail.js';
+import { sendMailWithAttachment, SendOTP } from '../utils/sendEmail.js';
 import { hashPassword, comparePassword } from '../utils/encryptDecrypt.js';
 import { generateToken } from '../utils/jwtUtils.js';
 
 // Register user
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password, phone } = req.body;
-
+    const { name, email, password, phone,role ,isAdmin} = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: 'User already exists' });
-
-    const hashed = hashPassword(password);
-    const user = await User.create({ name, email, phone, password: hashed });
-
+    const hashed = await hashPassword(password);
+    const user = await User.create({ name, email, phone, password: hashed ,role,isAdmin});
     res.status(201).json({ message: 'User registered', user });
   } catch (err) {
     res.status(500).json({ message: 'Error registering user', error: err.message });
@@ -27,12 +24,12 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
+    
     if (!user) return res.status(404).json({ message: 'User not found' });
-
-    const isValid = comparePassword(password, user.password);
+    const isValid = await comparePassword(password, user.password);
     if (!isValid) return res.status(401).json({ message: 'Invalid credentials' });
-
     const token = generateToken(user);
+    
 
     res.json({ token, user });
   } catch (err) {
@@ -49,12 +46,15 @@ export const forgotPassword = async (req, res) => {
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const otp = generateOTP();
+    console.log(otp);
+    
     user.otp = otp;
-    user.otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+    user.otpExpires = new Date(Date.now() + 5 * 60 * 1000); // 5 mins
     await user.save();
 
     // Send OTP on email
-    await sendMailWithAttachment(email, 'Your OTP', `Your OTP is: <b>${otp}</b>`);
+    await sendMailWithAttachment(email, 'Your OTP', `Your OTP is: ${otp}`);
+    await SendOTP(email, otp);
 
     res.json({ message: 'OTP sent to email' });
   } catch (err) {
@@ -88,9 +88,11 @@ export const resetPassword = async (req, res) => {
       return res.status(400).json({ message: 'Invalid or expired OTP' });
     }
 
-    user.password = hashPassword(newPassword);
+    user.password = await hashPassword(newPassword);
     user.otp = null;
     user.otpExpires = null;
+    console.log(user);
+    
     await user.save();
 
     res.json({ message: 'Password reset successful' });
@@ -112,6 +114,7 @@ export const getAllUsers = async (req, res) => {
 // Get user by ID
 export const getUserById = async (req, res) => {
   try {
+    
     const user = await User.findById(req.params.id).select('-password');
     if (!user) return res.status(404).json({ message: 'User not found' });
 
@@ -128,7 +131,7 @@ export const updateUser = async (req, res) => {
     const update = { name, phone };
 
     if (password) {
-      update.password = hashPassword(password);
+      update.password = await hashPassword(password);
     }
 
     const user = await User.findByIdAndUpdate(req.params.id, update, { new: true });

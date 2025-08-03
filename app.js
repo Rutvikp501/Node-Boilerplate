@@ -5,11 +5,11 @@ import morgan from 'morgan';
 import mainRoutes from './routes/main.routes.js';
 import notFound from './middlewares/notFound.middleware.js';
 import errorHandler from './middlewares/error.middleware.js';
-import { connectMongoDB, connectMySQLDB,  } from './config/db.js';
+import { connectMongoDB,  } from './config/db.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+    
 
-const swaggerDocument = YAML.load('./config/swagger.yaml');
 
 const app = express();
 
@@ -22,15 +22,14 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 60000 }
 }));
-
-
+const swaggerDocument = YAML.load('./config/swagger.yaml');
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/', mainRoutes);
+app.use('/api', mainRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
 await connectMongoDB();
-await connectMySQLDB();
+// await connectMySQLDB();
 // await connectPGDB();
 
 export default app;

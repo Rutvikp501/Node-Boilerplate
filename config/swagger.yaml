@@ -5,7 +5,7 @@ info:
   description: User authentication and management APIs
 
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:5000
     description: Local server
 
 tags:
@@ -28,9 +28,17 @@ paths:
                 name:
                   type: string
                 email:
+                  type: 
+                phone:
                   type: string
                 password:
                   type: string
+                role:
+                  type: string
+                isActive:
+                  type: boolean
+                isAdmin:
+                  type: boolean               
       responses:
         '201':
           description: User registered successfully

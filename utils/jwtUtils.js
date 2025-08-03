@@ -1,7 +1,8 @@
-import jwt from 'jsonwebtoken';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_key'; // use env in production
-const JWT_EXPIRES_IN = '7d'; // token validity
+import jwt from "jsonwebtoken";
+import dotenv from 'dotenv';
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key"; // use env in production
+const JWT_EXPIRES_IN = "7d"; // token validity
 
 /**
  * Generate a JWT token
@@ -12,7 +13,14 @@ const JWT_EXPIRES_IN = '7d'; // token validity
  * generateToken({ id: user._id })
  */
 export function generateToken(payload) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+  const data = {
+    UserId: payload._id,
+    name: payload.name,
+    role: payload.role,
+    email: payload.email,
+  };
+
+  return jwt.sign(data, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 }
 
 /**
@@ -27,7 +35,7 @@ export function verifyToken(token) {
   try {
     return jwt.verify(token, JWT_SECRET);
   } catch (error) {
-    console.error('Invalid token', error.message);
+    console.error("Invalid token", error.message);
     return null;
   }
 }
