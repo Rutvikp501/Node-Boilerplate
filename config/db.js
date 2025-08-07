@@ -4,7 +4,8 @@ export const log = (...args) => {
     console.log(...args);
   }
 };
-
+import dotenv from 'dotenv';
+dotenv.config();
 // ------------------ MongoDB ------------------
 import mongoose from 'mongoose';
 
