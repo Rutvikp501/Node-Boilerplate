@@ -3,10 +3,10 @@ import {registerUser,loginUser,getAllUsers,getUserById,updateUser,deleteUser,
          forgotPassword,verifyOtp,resetPassword,} from '../controllers/userController.js';
 
 import { authenticateJWT, checkRole } from '../middlewares/authenticateJWT.js';
-
 const router = express.Router();
 
 // ✅ Public routes
+// router.post('/register',cloudinaryUpload.single('profilePhoto'), registerUser);
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/forgot-password', forgotPassword);
@@ -14,7 +14,7 @@ router.post('/verify-otp', verifyOtp);
 router.post('/reset-password', resetPassword);
 
 // ✅ Protected routes (require JWT)
-router.get('/', authenticateJWT, getAllUsers);
+router.get('/', authenticateJWT,checkRole('admin'), getAllUsers);
 router.get('/:id', authenticateJWT, getUserById);
 router.put('/:id', authenticateJWT, updateUser);
 router.delete('/:id', authenticateJWT, checkRole('admin'), deleteUser);

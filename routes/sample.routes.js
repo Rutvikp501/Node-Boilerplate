@@ -3,6 +3,7 @@ const router = express.Router();
 
 import { cloudinaryUpload } from '../config/cloudinary.js';
 import { generateCaptcha } from '../utils/generateCaptcha.js';
+import { pdfGenerate } from '../controllers/pdfController.js';
 // import { s3Upload } from '../config/s3.js';
 
 // router.post('/upload-s3', s3Upload.single('file'), (req, res) => {
@@ -29,6 +30,7 @@ router.post('/verify-captcha', (req, res) => {
     res.send({ success: false, message: 'CAPTCHA incorrect' });
   }
 });
+router.post('/generatePdf', pdfGenerate)
 
 // Your actual routes here
 router.get("/test", (req, res) => {
