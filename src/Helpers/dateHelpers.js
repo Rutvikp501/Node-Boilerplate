@@ -1,7 +1,6 @@
 // ✅ Format a JS Date or ISO string to 'DD/MM/YYYY'
 export function formatDateToDDMMYYYY(input) {
-  /**
-   * @param {Date | string} input - JS Date object or ISO string (e.g., '2025-07-22')
+  /*** @param {Date | string} input - JS Date object or ISO string (e.g., '2025-07-22')
    * @returns {string} Formatted date string like '22/07/2025'
    *
    * Example:
@@ -97,7 +96,9 @@ export function formatToReadableDate(inputDate) {
 
   return `${getOrdinal(day)} ${month} ${year}`;
 }
-/**
+
+export function addDaysToDate(date, days) {
+  /**
  * Adds a given number of days to a date.
  *
  * @param {Date | string} date - The starting date. Can be a Date object or a date string (e.g., '2025-07-22').
@@ -108,7 +109,6 @@ export function formatToReadableDate(inputDate) {
  * addDaysToDate('2025-07-22', 5); // returns Date object for '2025-07-27'
  * addDaysToDate(new Date(), 10);  // returns Date object 10 days from today
  */
-export function addDaysToDate(date, days) {
   const result = new Date(date);
   result.setDate(result.getDate() + days);
   return result;

@@ -1,22 +1,37 @@
 # 🧱 Node Boilerplate Project
 
-A production-ready Node.js  starter template with features like:
-- MongoDB connection
-- Cloudinary image upload
-- JWT Auth
-- PDF generation
-- Email sending
-- Password encryption
-- API routing (public/private)
-- Environment-based configuration
+A production-ready **Node.js + Express boilerplate** with MongoDB, PostgreSQL, JWT authentication, Cloudinary integration, AWS support, PDF generation, and more.
 
+Easily kickstart your next backend project with **just one command** 👇
+
+# 📂 Features
+
+- ✅ Express.js setup with middleware (CORS, Helmet, Morgan, BodyParser)
+- ✅ MongoDB + Mongoose connection ready
+- ✅ PostgreSQL + pg connection ready
+- ✅ JWT Authentication (login/register flow)
+- ✅ AWS S3 integration ready
+- ✅ Cloudinary for image uploads
+- ✅ PDF Generation using pdfmake
+- ✅ Email Utility with Nodemailer
+- ✅ Encryption / Decryption helpers
+- ✅ Swagger API Docs setup
+- ✅ Pre-configured folder structure for scalability
+
+# 🆕 Built-in Utilities
+
+- 🔹 DateTime Formatter – format dates/times easily
+- 🔹 Number Formatter – format large numbers, decimals, percentages
+- 🔹 Currency Formatter – handle INR/USD/other currency formats
+- 🔹 OTP System – generate + verify one-time passwords
+- 🔹 Captcha Utility – basic captcha generator & validator
 ---
 
 ## 📁 Folder Structure Overview
 
 ```
 /src
- ┣ /config          → All third-party setups (Cloudinary, DB, etc.)
+ ┣ /config          → All third-party setups (s3, DB, etc.)
  ┣ /controllers     → Business logic for routes
  ┣ /models          → Mongoose models/schemas
  ┣ /routes          → Route definitions
@@ -55,11 +70,13 @@ Token-based login handled via middleware to protect private routes.
 
 ---
 
-### 4. ☁️ Cloudinary Upload (Image/Video)
+### 4. ☁️ AWS S3 Upload (Image/Video) & Delete
 ```ts
-import { CloudinaryStorage } from 'multer-storage-cloudinary'
+import { s3Upload,s3Delete ,safeUnlink   } from '../config/s3.js';
+const uploaded = await s3Upload(req.file, FOLDER);
+await s3Delete(key)
 ```
-Uploads files to Cloudinary using `multer` and stores file URL + public ID in MongoDB.
+Uploads files to AWS S3 using `multer` and stores file URL + public ID in MongoDB.
 
 ---
 

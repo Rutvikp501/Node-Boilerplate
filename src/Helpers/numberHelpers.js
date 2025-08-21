@@ -1,5 +1,4 @@
-/**
- * Check if a value is a valid number
+/** * Check if a value is a valid number
  * @param {any} val - Any value
  * @returns {boolean}
  * @example
@@ -10,8 +9,7 @@ export function isNumber(val) {
   return typeof val === 'number' && !isNaN(val);
 }
 
-/**
- * Format a number with commas (Indian/US format)
+/** * Format a number with commas (Indian/US format)
  * @param {number|string} num - e.g., 1234567
  * @returns {string} - e.g., "1,234,567"
  * @example
@@ -21,8 +19,7 @@ export function formatWithCommas(num) {
   return Number(num).toLocaleString('en-IN');
 }
 
-/**
- * Convert percentage string to decimal
+/** * Convert percentage string to decimal
  * @param {string} percentage - e.g., "25%"
  * @returns {number} - e.g., 0.25
  * @example
@@ -32,8 +29,7 @@ export function percentageToDecimal(percentage) {
   return parseFloat(percentage.replace('%', '')) / 100;
 }
 
-/**
- * Convert decimal to percentage string
+/** * Convert decimal to percentage string
  * @param {number} decimal - e.g., 0.25
  * @param {number} [precision=2] - Decimal places
  * @returns {string} - e.g., "25%"
@@ -44,8 +40,7 @@ export function decimalToPercentage(decimal, precision = 2) {
   return `${(decimal * 100).toFixed(precision)}%`;
 }
 
-/**
- * Round a number to fixed decimal places
+/** * Round a number to fixed decimal places
  * @param {number} num
  * @param {number} places
  * @returns {number}
@@ -56,8 +51,7 @@ export function roundTo(num, places) {
   return Number(Number(num).toFixed(places));
 }
 
-/**
- * Clamp a number between min and max
+/** * Clamp a number between min and max
  * @param {number} val
  * @param {number} min
  * @param {number} max
@@ -69,8 +63,7 @@ export function clamp(val, min, max) {
   return Math.max(min, Math.min(val, max));
 }
 
-/**
- * Get a random integer between min and max (inclusive)
+/** * Get a random integer between min and max (inclusive)
  * @param {number} min
  * @param {number} max
  * @returns {number}
@@ -81,8 +74,7 @@ export function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/**
- * Convert number to Indian currency format (₹)
+/** * Convert number to Indian currency format (₹)
  * @param {number|string} amount
  * @returns {string}
  * @example
@@ -92,8 +84,7 @@ export function formatCurrencyINR(amount) {
   return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount);
 }
 
-/**
- * Format number into a localized currency string
+/** * Format number into a localized currency string
  * @param {number|string} amount - e.g., 123456.78
  * @param {string} currencyCode - e.g., 'INR', 'USD', 'GBP', 'RUB'
  * @param {string} [locale='en-IN'] - e.g., 'en-IN', 'en-US', 'ru-RU'
@@ -112,8 +103,7 @@ export function formatCurrency(amount, currencyCode, locale = 'en-IN') {
   }).format(amount);
 }
 
-/**
- * Convert a currency amount from one currency to another using live rates.
+/** * Convert a currency amount from one currency to another using live rates.
  * @param {number} amount - The amount to convert (e.g., 1000)
  * @param {string} fromCurrency - Source currency code (e.g., 'INR')
  * @param {string} toCurrency - Target currency code (e.g., 'USD')

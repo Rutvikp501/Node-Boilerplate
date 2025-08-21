@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/Rutvikp501/Node-Boilerplate#readme",
   "dependencies": {
-    "aws-sdk": "^2.1692.0",
+    "@aws-sdk/client-s3": "^3.637.0",
+    "@aws-sdk/s3-request-presigner": "^3.637.0",
     "bcrypt": "^6.0.0",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.5",

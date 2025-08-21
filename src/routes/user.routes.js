@@ -6,7 +6,6 @@ import { authenticateJWT, checkRole } from '../middlewares/authenticateJWT.js';
 const router = express.Router();
 
 // ✅ Public routes
-// router.post('/register',cloudinaryUpload.single('profilePhoto'), registerUser);
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/forgot-password', forgotPassword);
