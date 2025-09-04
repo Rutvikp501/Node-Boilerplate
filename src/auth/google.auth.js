@@ -17,7 +17,6 @@ passport.use(
       try {
         const email = profile.emails?.[0]?.value;
         const photo = profile.photos?.[0]?.value;
-console.log("✅ Google Profile:", profile);
 
         let existingUser = await User.findOne({ email });
 
@@ -34,8 +33,6 @@ console.log("✅ Google Profile:", profile);
         } else if (!existingUser.googleId) {
           // Existing user without googleId → link account
           existingUser.googleId = profile.id;
-
-          console.log("✅ User saved/found:", existingUser);
           await existingUser.save();
         }
 

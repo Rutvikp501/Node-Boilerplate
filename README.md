@@ -1,6 +1,6 @@
 # 🧱 Node Boilerplate Project
 
-A production-ready **Node.js + Express boilerplate** with MongoDB, PostgreSQL, JWT authentication, Cloudinary integration, AWS support, PDF generation, and more.
+A production-ready **Node.js + Express boilerplate** with MongoDB, PostgreSQL, Google OAuth 2.0 , JWT authentication, Cloudinary integration, AWS support, PDF generation, and more.
 
 Easily kickstart your next backend project with **just one command** 👇
 
@@ -10,6 +10,7 @@ Easily kickstart your next backend project with **just one command** 👇
 - ✅ MongoDB + Mongoose connection ready
 - ✅ PostgreSQL + pg connection ready
 - ✅ JWT Authentication (login/register flow)
+- ✅ Google OAuth 2.0 Authentication (login with Google)
 - ✅ AWS S3 integration ready
 - ✅ Cloudinary for image uploads
 - ✅ PDF Generation using pdfmake
@@ -25,19 +26,60 @@ Easily kickstart your next backend project with **just one command** 👇
 - 🔹 Currency Formatter – handle INR/USD/other currency formats
 - 🔹 OTP System – generate + verify one-time passwords
 - 🔹 Captcha Utility – basic captcha generator & validator
+- 🔹 Excel Export Utility – export all user data into an Excel file (.xlsx)
+- 🔹 Excel Import Utility – bulk import users from Excel (with duplicate email check + safe field validation)
+- 🔹 Google OAuth Utility – authenticate users with their Google account (auto-save in DB + JWT issued)
 ---
 
 ## 📁 Folder Structure Overview
 
 ```
-/src
- ┣ /config          → All third-party setups (s3, DB, etc.)
- ┣ /controllers     → Business logic for routes
- ┣ /models          → Mongoose models/schemas
- ┣ /routes          → Route definitions
- ┣ /utils           → Helpers (hashing, JWT, email, PDF)
- ┣ /middlewares     → Auth and error middleware
- ┗ /swagger         → OpenAPI documentation
+├── .env.example
+├── .gitignore
+├── README.md
+├── package-lock.json
+├── package.json
+├── server.js
+└── src
+    ├── Helpers
+        ├── dateHelpers.js
+        └── numberHelpers.js
+    ├── auth
+        ├── google.auth.js
+        └── jwt.auth.js
+    ├── config
+        ├── db.js
+        ├── jwt.config.js
+        ├── s3.js
+        └── swagger.yaml
+    ├── controllers
+        ├── pdf.Controller.js
+        ├── user.Controller.js
+        └── utils.controller.js
+    ├── images
+        └── rutvik Profile.jpg
+    ├── middlewares
+        ├── error.middleware.js
+        └── notFound.middleware.js
+    ├── models
+        └── User.model.js
+    ├── queries
+        └── query.js
+    ├── routes
+        ├── auth.routes.js
+        ├── main.routes.js
+        ├── sample.routes.js
+        └── user.routes.js
+    ├── services
+    └── utils
+        ├── encryptDecrypt.js
+        ├── excel.util.js
+        ├── generateCaptcha.js
+        ├── otpGenerator.js
+        ├── pdfUtils.js
+        ├── sendEmail.js
+        └── sendSMS.js
+    ├── app.js
 ```
 
 ---

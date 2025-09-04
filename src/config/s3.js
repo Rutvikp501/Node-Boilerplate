@@ -16,7 +16,7 @@ export const s3 = new S3Client({
 
 // Local temp upload (multer) – this parses multipart & populates req.body + req.file
 export const uploadLocal = multer({
-  dest: "uploads/", // temp folder
+  dest: "tmp/", // temp folder
 });
 export const safeUnlink = (p) => {
   if (!p) return;
@@ -35,6 +35,26 @@ export const s3Upload = async (file, folder) => {
 
   const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
   return { key, url };
+};
+export const s3UploadMultiple = async (files, folder) => {
+  const uploadPromises = files.map(async (file) => {
+    const key = `${folder}/${Date.now()}_${file.originalname}`;
+    const command = new PutObjectCommand({
+      Bucket: process.env.AWS_BUCKET_NAME,
+      Key: key,
+      Body: fs.readFileSync(file.path),
+      ContentType: file.mimetype,
+    });
+    await s3.send(command);
+
+    // Clean up local file after upload
+    fs.unlinkSync(file.path);
+
+    const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+    return { key, url };
+  });
+
+  return Promise.all(uploadPromises);
 };
 
 // export const s3Upload = async (key, body, contentType) => {

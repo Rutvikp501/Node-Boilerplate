@@ -10,11 +10,13 @@ import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
+import passport from "passport";
+import "./auth/google.auth.js";
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(session({
   secret: 'your-secret-key',
@@ -22,6 +24,9 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 60000 }
 }));
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,8 +38,11 @@ app.use('/api', mainRoutes);
 app.get('/', (req, res) => {
   res.send('Welcome to server ..!');
 });
+
 app.use(notFound);
 app.use(errorHandler);
+
+
 
 await connectMongoDB();
 // await connectMySQLDB();
