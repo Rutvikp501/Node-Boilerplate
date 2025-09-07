@@ -5,7 +5,9 @@ import morgan from 'morgan';
 import mainRoutes from './routes/main.routes.js';
 import notFound from './middlewares/notFound.middleware.js';
 import errorHandler from './middlewares/error.middleware.js';
-import { connectMongoDB,PGConnection  } from './config/db.js';
+import { connectMongoDB  } from './config/db.js';
+// import PGConnection from './config/db.js';
+// import connectMySQLDB   from './config/db.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
 import path from 'path';
@@ -46,6 +48,6 @@ app.use(errorHandler);
 
 await connectMongoDB();
 // await connectMySQLDB();
-await PGConnection();
+// await PGConnection();
 
 export default app;
