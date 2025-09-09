@@ -19,7 +19,6 @@ passport.use(
         const photo = profile.photos?.[0]?.value;
 
         let existingUser = await User.findOne({ email });
-
         if (!existingUser) {
           // New user
           existingUser = await User.create({
@@ -33,6 +32,7 @@ passport.use(
         } else if (!existingUser.googleId) {
           // Existing user without googleId → link account
           existingUser.googleId = profile.id;
+          
           await existingUser.save();
         }
 
@@ -40,7 +40,7 @@ passport.use(
         const token = generateToken(existingUser);
 
         // Attach token for callback route
-        return done(null, { existingUser, token });
+        return done(null, { user: existingUser, token });
       } catch (err) {
         console.error("  Error in Google OAuth:", err);
         return done(err, null);

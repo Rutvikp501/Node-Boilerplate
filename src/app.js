@@ -13,7 +13,9 @@ import YAML from 'yamljs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import passport from "passport";
-import "./auth/google.auth.js";
+import "./auth/google.Oauth.js";
+import "./auth/facebook.Oauth.js";
+import "./auth/github.Oauth.js";
 const app = express();
 
 app.use(cors());
