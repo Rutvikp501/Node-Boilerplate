@@ -21,7 +21,8 @@ const userSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true },
   isAdmin: { type: Boolean, },
   createdAt: { type: Date, default: Date.now },
-   profilePhoto: [PhotoSchema],
+  profilePhoto: [PhotoSchema],
+  location: String,
 });
 
 const User = mongoose.model('User', userSchema);

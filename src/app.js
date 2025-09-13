@@ -18,6 +18,10 @@ import "./auth/facebook.Oauth.js";
 import "./auth/github.Oauth.js";
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,7 +41,7 @@ const __dirname = path.dirname(__filename);
 const swaggerDocument = YAML.load(path.join(__dirname, '../src/config/swagger.yaml'));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use('/api', mainRoutes);
+app.use('/', mainRoutes);
 // ✅ Basic check route (after API)
 app.get('/', (req, res) => {
   res.send('Welcome to server ..!');

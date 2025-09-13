@@ -14,10 +14,11 @@ router.get(
     const { user, token } = req.user;
 
     // Option 1: Redirect with token in query (useful for frontend apps)
-    // res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${token}`);
+    //  res.redirect(`${process.env.FRONTEND_URL}/auth/callback?token=${token}`);
+     res.redirect(`${process.env.FRONTEND_URL}/home?token=${token}`);
 
     // Option 2: Return JSON (for API-only usage)
-    res.json({ message: "Google Login successful", token, user });
+   // res.json({ message: "Google Login successful", token, user });
   }
 );
 // github OAuth
