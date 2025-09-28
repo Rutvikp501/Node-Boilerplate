@@ -2,21 +2,23 @@ import express from 'express';
 import session from 'express-session';
 import cors from 'cors';
 import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import passport from "passport";
 import mainRoutes from './routes/main.routes.js';
 import notFound from './middlewares/notFound.middleware.js';
 import errorHandler from './middlewares/error.middleware.js';
 import { connectMongoDB  } from './config/db.js';
 // import PGConnection from './config/db.js';
 // import connectMySQLDB   from './config/db.js';
-import swaggerUi from 'swagger-ui-express';
-import YAML from 'yamljs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import passport from "passport";
-import "./auth/google.Oauth.js";
-import "./auth/facebook.Oauth.js";
-import "./auth/github.Oauth.js";
-import rateLimit from 'express-rate-limit';
+import "./auth/google.Oauth.js";// Google OAuth
+import "./auth/facebook.Oauth.js";// Facebook OAuth
+import "./auth/github.Oauth.js";// GitHub OAuth
+import "./controllers/cron.Controller.js";// cron jobs
+
 const app = express();
 
 const limiter = rateLimit({
