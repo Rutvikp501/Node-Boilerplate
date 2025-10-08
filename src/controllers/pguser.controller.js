@@ -1,19 +1,20 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { generateOTP } from "../utils/otpGenerator.js";
+import { sendMailWithAttachment, SendOTP } from "../utils/sendEmail.js";
+import { generateToken } from "../config/jwt.config.js";
 import User from '../models/user.pg.js';
-import { s3Upload, s3Delete } from '../utils/s3.js';
-import { generateOTP, SendOTP } from '../utils/otp.js';
+import { s3Upload, s3Delete } from '../config/s3.js';
 import dotenv from 'dotenv';
+import { hashPassword,comparePassword } from '../utils/encryptDecrypt.js';
 dotenv.config();
 
 const FOLDER = process.env.FOLDER;
 
-const hashPassword = async (pwd) => bcrypt.hash(pwd, 10);
-const comparePassword = async (pwd, hash) => bcrypt.compare(pwd, hash);
-const generateToken = (user) =>
-  jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
-    expiresIn: '7d',
-  });
+// const hashPassword = async (pwd) => bcrypt.hash(pwd, 10);
+// const comparePassword = async (pwd, hash) => bcrypt.compare(pwd, hash);
+// const generateToken = (user) =>
+//   jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+//     expiresIn: '7d',
+//   });
 
 // Register
 export const pgregisterUser = async (req, res) => {
