@@ -21,7 +21,7 @@ export const sequelize = new Sequelize(
   }
 );
 
-export const connectSequelize = async () => {
+export const PGConnection = async () => {
   try {
     await sequelize.authenticate();
     console.log('✅ PostgreSQL Connected via Sequelize');
