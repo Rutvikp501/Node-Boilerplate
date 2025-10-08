@@ -50,6 +50,7 @@
     "pdfmake": "^0.2.20",
     "pg": "^8.16.3",
     "roboto-font": "^0.1.0",
+    "sequelize": "^6.37.7",
     "svg-captcha": "^1.4.0",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"
