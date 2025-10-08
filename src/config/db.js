@@ -40,28 +40,5 @@ export const connectMySQLDB = async () => {
   }
 };
 
-// ------------------ PostgreSQL ------------------
-import pkg from "pg";
-const { Pool } = pkg;
 
-export const connectPGDB = new Pool({
-  host: process.env.PG_HOST || "localhost",
-  port: process.env.PG_PORT ? parseInt(process.env.DB_PORT) : 5432,
-  ssl:
-    process.env.PG_HOST && process.env.PG_HOST != "localhost"
-      ? { ca: fs.readFileSync("global-bundle.pem").toString() }
-      : false,
-  user: process.env.PG_USER || "postgres",
-  password: process.env.PG_PASSWORD || "postgres",
-});
 
-export const PGConnection = async () => {
-  try {
-    const client = await connectPGDB.connect();
-    console.log("PostgreSQL Connected ✅");
-    client.release();
-  } catch (err) {
-    console.error("PostgreSQL connection failed  ", err);
-    process.exit(1);
-  }
-};

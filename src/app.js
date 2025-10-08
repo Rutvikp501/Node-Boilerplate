@@ -12,12 +12,12 @@ import mainRoutes from './routes/main.routes.js';
 import notFound from './middlewares/notFound.middleware.js';
 import errorHandler from './middlewares/error.middleware.js';
 import { connectMongoDB  } from './config/db.js';
-// import PGConnection from './config/db.js';
 // import connectMySQLDB   from './config/db.js';
 import "./auth/google.Oauth.js";// Google OAuth
 import "./auth/facebook.Oauth.js";// Facebook OAuth
 import "./auth/github.Oauth.js";// GitHub OAuth
 import "./controllers/cron.Controller.js";// cron jobs
+import { PGConnection } from './config/pg.js';
 
 const app = express();
 
@@ -57,6 +57,6 @@ app.use(errorHandler);
 
 await connectMongoDB();
 // await connectMySQLDB();
-// await PGConnection();
+await PGConnection();
 
 export default app;
