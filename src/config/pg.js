@@ -1,36 +1,31 @@
-// ------------------ PostgreSQL ------------------
-import fs from "fs";
-import pkg from "pg";
-const { Pool } = pkg;
+import { Sequelize } from 'sequelize';
 
-// ✅ Create a connection pool
-export const connectPGDB = new Pool({
-  host: process.env.PG_HOST || "localhost",
-  port: process.env.PG_PORT ? parseInt(process.env.PG_PORT) : 5432, // <-- fixed variable name
-  user: process.env.PG_USER || "postgres",
-  password: process.env.PG_PASSWORD || "postgres",
-  database: process.env.PG_DATABASE || "node-boilerplate", // <-- always include DB name
-  ssl:
-    process.env.PG_HOST && process.env.PG_HOST !== "localhost"
-      ? {
-          rejectUnauthorized: true,
-          ca: fs.existsSync("global-bundle.pem")
-            ? fs.readFileSync("global-bundle.pem").toString()
-            : undefined,
-        }
-      : false,
-  // max: 10, // optional - connection pool size
-  // idleTimeoutMillis: 30000, // optional - auto close idle connections
-});
+export const sequelize = new Sequelize(
+  process.env.PG_DATABASE || 'node-boilerplate',
+  process.env.PG_USER || 'postgres',
+  process.env.PG_PASSWORD || 'postgres',
+  {
+    host: process.env.PG_HOST || 'localhost',
+    port: process.env.PG_PORT || 5432,
+    dialect: 'postgres',
+    logging: false,
+    dialectOptions:
+      process.env.PG_HOST !== 'localhost'
+        ? {
+            ssl: {
+              require: true,
+              rejectUnauthorized: false,
+            },
+          }
+        : {},
+  }
+);
 
-// ✅ Function to verify connection
-export const PGConnection = async () => {
+export const connectSequelize = async () => {
   try {
-    const client = await connectPGDB.connect();
-    console.log("✅ PostgreSQL Connected Successfully");
-    client.release();
+    await sequelize.authenticate();
+    console.log('✅ PostgreSQL Connected via Sequelize');
   } catch (err) {
-    console.error("❌ PostgreSQL connection failed:", err.message);
-    process.exit(1);
+    console.error('❌ Sequelize connection failed:', err);
   }
 };

@@ -1,4 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
+import { sequelize } from '../config/pg.js';
 
 class User extends Model {}
 
@@ -22,6 +23,7 @@ User.init(
     location: { type: DataTypes.STRING },
   },
   {
+    sequelize,
     modelName: 'User',
     timestamps: true,
   }
